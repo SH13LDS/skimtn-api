@@ -1,36 +1,16 @@
 const express = require('express');
 const dotenv = require('dotenv');
 
+// Route files
+const mountains = require('./routes/mountains');
+
 // Load env vars
 dotenv.config({ path: './config/config.env' });
 
 const app = express();
 
-app.get('/api/v1/mountains', (req, res) => {
-  res.status(200).json({ success: true, msg: 'Show all mountains' });
-});
-
-app.get('/api/v1/mountains/:id', (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Show mountain ${req.params.id}` });
-});
-
-app.post('/api/v1/mountains', (req, res) => {
-  res.status(200).json({ success: true, msg: 'Create new mountain' });
-});
-
-app.put('/api/v1/mountains/:id', (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Update mountain ${req.params.id}` });
-});
-
-app.delete('/api/v1/mountains/:id', (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Delete mountain ${req.params.id}` });
-});
+// Mount routers
+app.use('/api/v1/mountains', mountains);
 
 const PORT = process.env.PORT || 5000;
 
