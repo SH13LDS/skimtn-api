@@ -13,6 +13,9 @@ const mountains = require('./routes/mountains');
 
 const app = express();
 
+// Body parser
+app.use(express.json());
+
 // Mount routers
 app.use('/api/v1/mountains', mountains);
 

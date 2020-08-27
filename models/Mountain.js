@@ -43,25 +43,25 @@ const MountainSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add an address'],
   },
-  location: {
-    // GeoJSON Point
-    type: {
-      type: String,
-      enum: ['Point'],
-      required: true,
-    },
-    coordinates: {
-      type: [Number],
-      index: '2dsphere',
-      required: true,
-    },
-    formattedAddress: String,
-    street: String,
-    city: String,
-    state: String,
-    zipcode: String,
-    country: String,
-  },
+  // location: {
+  //   // GeoJSON Point
+  //   type: {
+  //     type: String,
+  //     enum: ['Point'],
+  //     required: true,
+  //   },
+  //   coordinates: {
+  //     type: [Number],
+  //     index: '2dsphere',
+  //     required: true,
+  //   },
+  //   formattedAddress: String,
+  //   street: String,
+  //   city: String,
+  //   state: String,
+  //   zipcode: String,
+  //   country: String,
+  // },
   averageRating: {
     type: Number,
     min: [1, 'Rating must be at least 1'],
@@ -100,7 +100,7 @@ const MountainSchema = new mongoose.Schema({
     default: false,
   },
   projectedOpening: {
-    type: Date,
+    type: String,
     default: false,
   },
   isOpen: {
