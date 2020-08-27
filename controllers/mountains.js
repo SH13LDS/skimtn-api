@@ -3,8 +3,13 @@ const Mountain = require('../models/Mountain');
 // @desc Get all mountains
 // @route GET /api/v1/mountains
 // @access Public
-exports.getMountains = (req, res, next) => {
-  res.status(200).json({ success: true, msg: 'Show all mountains' });
+exports.getMountains = async (req, res, next) => {
+  try {
+    const mountains = await Mountain.find();
+    res.status(200).json({ success: true, data: mountains });
+  } catch (error) {
+    res.status(400).json({ success: false });
+  }
 };
 
 // @desc Get single mountain
