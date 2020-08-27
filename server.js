@@ -1,11 +1,15 @@
 const express = require('express');
 const dotenv = require('dotenv');
-
-// Route files
-const mountains = require('./routes/mountains');
+const connectDB = require('./config/db');
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
+
+// Connect to database
+connectDB();
+
+// Route files
+const mountains = require('./routes/mountains');
 
 const app = express();
 
