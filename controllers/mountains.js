@@ -1,3 +1,4 @@
+const ErrorResponse = require('../utils/errorResponse');
 const Mountain = require('../models/Mountain');
 
 // @desc Get all mountains
@@ -22,13 +23,19 @@ exports.getMountain = async (req, res, next) => {
     const mountain = await Mountain.findById(req.params.id);
 
     if (!mountain) {
-      return res.status(400).json({ success: false });
+      return next(
+        // is formatted object id but is not in the database
+        new ErrorResponse(`Mountain with id of ${req.params.id} not found`, 404)
+      );
     }
 
     res.status(200).json({ success: true, data: mountain });
   } catch (error) {
     // res.status(400).json({ success: false });
-    next(error);
+    next(
+      // if not a formatted object id
+      new ErrorResponse(`Mountain with id of ${req.params.id} not found`, 404)
+    );
   }
 };
 
