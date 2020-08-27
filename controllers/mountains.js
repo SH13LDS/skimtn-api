@@ -15,10 +15,18 @@ exports.getMountains = async (req, res, next) => {
 // @desc Get single mountain
 // @route GET /api/v1/mountains/:id
 // @access Public
-exports.getMountain = (req, res, next) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Show mountain ${req.params.id}` });
+exports.getMountain = async (req, res, next) => {
+  try {
+    const mountain = await Mountain.findById(req.params.id);
+
+    if (!mountain) {
+      return res.status(400).json({ success: false });
+    }
+
+    res.status(200).json({ success: true, data: mountain });
+  } catch (error) {
+    res.status(400).json({ success: false });
+  }
 };
 
 // @desc Create new mountain
