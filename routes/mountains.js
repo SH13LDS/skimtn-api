@@ -1,30 +1,20 @@
 const express = require('express');
+const {
+  getMountains,
+  getMountain,
+  createMountain,
+  updateMountain,
+  deleteMountain,
+} = require('../controllers/mountains');
+
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({ success: true, msg: 'Show all mountains' });
-});
+router.route('/').get(getMountains).post(createMountain);
 
-router.get('/:id', (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Show mountain ${req.params.id}` });
-});
-
-router.post('/', (req, res) => {
-  res.status(200).json({ success: true, msg: 'Create new mountain' });
-});
-
-router.put('/:id', (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Update mountain ${req.params.id}` });
-});
-
-router.delete('/:id', (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: `Delete mountain ${req.params.id}` });
-});
+router
+  .route('/:id')
+  .get(getMountain)
+  .put(updateMountain)
+  .delete(deleteMountain);
 
 module.exports = router;
