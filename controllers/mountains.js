@@ -11,7 +11,7 @@ exports.getMountains = async (req, res, next) => {
       .status(200)
       .json({ success: true, count: mountains.length, data: mountains });
   } catch (error) {
-    res.status(400).json({ success: false });
+    next(error);
   }
 };
 
@@ -23,8 +23,8 @@ exports.getMountain = async (req, res, next) => {
     const mountain = await Mountain.findById(req.params.id);
 
     if (!mountain) {
+      // is formatted object id but is not in the database
       return next(
-        // is formatted object id but is not in the database
         new ErrorResponse(`Mountain with id of ${req.params.id} not found`, 404)
       );
     }
@@ -32,10 +32,8 @@ exports.getMountain = async (req, res, next) => {
     res.status(200).json({ success: true, data: mountain });
   } catch (error) {
     // res.status(400).json({ success: false });
-    next(
-      // if not a formatted object id
-      new ErrorResponse(`Mountain with id of ${req.params.id} not found`, 404)
-    );
+    // if not a formatted object id
+    next(error);
   }
 };
 
@@ -51,7 +49,7 @@ exports.createMountain = async (req, res, next) => {
       data: mountain,
     });
   } catch (error) {
-    res.status(400).json({ success: false });
+    next(error);
   }
 };
 
@@ -66,12 +64,14 @@ exports.updateMountain = async (req, res, next) => {
     });
 
     if (!mountain) {
-      return res.status(400).json({ success: false });
+      return next(
+        new ErrorResponse(`Mountain with id of ${req.params.id} not found`, 404)
+      );
     }
 
     res.status(200).json({ success: true, data: mountain });
   } catch (error) {
-    res.status(400).json({ success: false });
+    next(error);
   }
 };
 
@@ -83,11 +83,13 @@ exports.deleteMountain = async (req, res, next) => {
     const mountain = await Mountain.findByIdAndDelete(req.params.id);
 
     if (!mountain) {
-      res.status(400).json({ success: false });
+      return next(
+        new ErrorResponse(`Mountain with id of ${req.params.id} not found`, 404)
+      );
     }
 
     res.status(200).json({ success: true, data: {} });
   } catch (error) {
-    res.status(400).json({ success: false });
+    nexrt(error);
   }
 };
