@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const MountainSchema = new mongoose.Schema({
   name: {
@@ -111,6 +112,12 @@ const MountainSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+// Create mountain slug from the name
+MountainSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true })
+  next();
 });
 
 module.exports = mongoose.model('Mountain', MountainSchema);
